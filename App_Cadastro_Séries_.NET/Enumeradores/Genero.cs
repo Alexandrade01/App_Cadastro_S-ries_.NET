@@ -23,4 +23,7 @@ namespace App_Cadastro_Séries_.NET
 		Terror = 13,
 		Esportes = 14
     }
+
+
+ 
 }

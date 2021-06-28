@@ -11,7 +11,7 @@ namespace App_Cadastro_Séries_.NET
 
 
         //Atributos
-
+       
         readonly Genero Genero;
         readonly string Titulo;
         readonly string Descricao;
@@ -24,6 +24,7 @@ namespace App_Cadastro_Séries_.NET
             Genero = genero;
             Titulo = titulo;
             Descricao = descricao;
+            if(ano<0 || ano > DateTime.Now.Year) { throw new DomainExceptions(" Ano de inicio invalido Invalido !"); }
             Ano = ano;
             Excluido = false;
         }
@@ -41,6 +42,7 @@ namespace App_Cadastro_Séries_.NET
             return retorno;
         }
         public string RetornaTitulo() { return Titulo; }
+        public int RetornaGenero() { return (int)Enum.Parse(typeof(Genero),this.Genero.ToString()); }
         public int RetornaId() { return Id; }
         public void Excluir() { Excluido = true; }
         public bool ItemExcluido() { return Excluido; }

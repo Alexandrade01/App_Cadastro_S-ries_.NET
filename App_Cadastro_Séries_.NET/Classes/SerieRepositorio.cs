@@ -11,7 +11,7 @@ namespace App_Cadastro_Séries_.NET
     {
         private List<Serie> Listagem = new List<Serie>();
         public void Atualiza(int id, Serie serie) { Listagem[id] = serie; }
-        public void Exclui(int id) { Listagem[id].Excluir(); }
+        public void Exclui(int id) { if (Listagem[id] == null) { throw new DomainExceptions("Id Invalido!"); } Listagem[id].Excluir(); }
         public void Insere(Serie serie) { Listagem.Add(serie); }
         public List<Serie> Lista() { return Listagem; }
         public int ProximoId() { return Listagem.Count; }

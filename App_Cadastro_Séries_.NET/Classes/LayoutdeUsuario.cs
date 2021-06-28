@@ -6,26 +6,33 @@ using System.Threading.Tasks;
 
 namespace App_Cadastro_Séries_.NET
 {
+
     public class LayoutdeUsuario
     {
+        static SerieRepositorio Acervo = new SerieRepositorio();
         static string OpcoesUsuario()
         {
             Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.BackgroundColor = ConsoleColor.White;
+
 
             Console.WriteLine("Bem vindo InnovationFix!!!");
             Console.WriteLine("Informe a opção desejada: ");
             Console.ResetColor();
-            Console.ForegroundColor = ConsoleColor.DarkBlue;
-            Console.WriteLine("\n\n1- Listar séries");
+            Console.WriteLine();
+            Console.ForegroundColor = ConsoleColor.Gray;
+
+            Console.WriteLine("1- Listar séries");
             Console.WriteLine("2- Inserir nova série");
             Console.WriteLine("3- Atualizar série");
             Console.WriteLine("4- Excluir série");
             Console.WriteLine("5- Visualizar série");
+            Console.WriteLine("6 - Listar séries excluidas");
             Console.WriteLine("C- Limpar Tela");
             Console.WriteLine("X- Sair");
             Console.WriteLine();
+
+
 
             string opcaoUsuario = Console.ReadLine().ToUpper();
             Console.WriteLine();
@@ -33,59 +40,94 @@ namespace App_Cadastro_Séries_.NET
             return opcaoUsuario;
         }
 
-        public static void Menu(SerieRepositorio SR)
+
+
+
+        public static void Menu()
         {
+            string resp = string.Empty;
             do
             {
-                switch (OpcoesUsuario())
+
+                try
                 {
-                    case "1":
-                        ListarSeries(SR);
-                        break;
-                    case "2":
-                        InserirSerie(SR);
-                        break;
-                    case "3":
-                        AtualizarSerie(SR);
-                        break;
-                    case "4":
-                        ExcluirSeries(SR);
-                        break;
-                    case "5":
-                        VisualizarSerie(SR);
-                        break;
-                    case "C":
-                        Console.Clear();
-                        break;
 
-                    default:
-                        throw new ArgumentOutOfRangeException();
+                    resp = OpcoesUsuario();
+                    switch (resp)
+                    {
+                        case "1":
+                            ListarSeries(Acervo, false);
+                            break;
+                        case "2":
+                            InserirSerie(Acervo);
+                            break;
+                        case "3":
+                            AtualizarSerie(Acervo);
+                            break;
+                        case "4":
+                            ExcluirSeries(Acervo);
+                            break;
+                        case "5":
+                            VisualizarSerie(Acervo);
+                            break;
+                        case "6":
+                            ListarSeries(Acervo, true);
+                            break;
+                        case "C":
+                            Console.Clear();
+                            break;
 
+                        default:
+                            throw new DomainExceptions("Opção Invalida !");
+
+                    }
+
+                }
+                catch (DomainExceptions e)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("ERRO " + e.Message);
+                    Console.WriteLine();
+                    Console.ResetColor();
+                }
+                catch (Exception e)
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("ERRO " + e.Message);
+                    Console.WriteLine();
+                    Console.ResetColor();
+                }
+                finally
+                {
+
+                    Console.ReadKey();
+                    Console.Clear();
                 }
 
             }
-            while (OpcoesUsuario() != "X");
+            while (resp != "X" || string.IsNullOrEmpty(resp));
         }
 
-        static void ListarSeries(SerieRepositorio repositorio)
+        static void ListarSeries(SerieRepositorio repositorio, bool utilizaveis)
         {
             Console.WriteLine("Listar séries \n");
 
-            var lista = repositorio.Lista();
+            var listagem = repositorio.Lista();
 
-            if (lista.Count == 0)
+            if (listagem.Count == 0)
             {
-                Console.WriteLine("Nenhuma série cadastrada.");
-                return;
+                throw new DomainExceptions("Lista Vazia!");
             }
 
-            //foreach (var serie in lista)
-            //{
-            //	var excluido = serie.retornaExcluido();
-
-            //	Console.WriteLine("#ID {0}: - {1} {2}", serie.retornaId(), serie.retornaTitulo(), (excluido ? "*Excluído*" : ""));
-            //}
+            foreach (var serie in listagem)
+            {
+                Console.ForegroundColor = (ConsoleColor)serie.RetornaGenero();
+                if (serie.ItemExcluido() == utilizaveis) { Console.WriteLine($"#ID {serie.RetornaId()}  Titulo: {serie.RetornaTitulo()}"); }
+                Console.ResetColor();
+            }
         }
+
+
         static void InserirSerie(SerieRepositorio repositorio)
         {
             Console.WriteLine("Inserir nova série \n");
@@ -104,7 +146,8 @@ namespace App_Cadastro_Séries_.NET
             Console.Write("Digite a Descrição da Série: ");
             string entradaDescricao = Console.ReadLine();
 
-            Serie novaSerie = new Serie(genero: (Genero)entradaGenero,
+            Serie novaSerie = new Serie(Acervo.ProximoId(), 
+                genero: (Genero)entradaGenero,
                 titulo: entradaTitulo,
                 descricao: entradaDescricao,
                 ano: entradaAno);
@@ -136,7 +179,8 @@ namespace App_Cadastro_Séries_.NET
             Console.Write("Digite a Descrição da Série: ");
             string entradaDescricao = Console.ReadLine();
 
-            Serie novaSerie = new Serie(genero: (Genero)entradaGenero,
+            Serie novaSerie = new Serie(Acervo.ProximoId(), 
+                genero: (Genero)entradaGenero,
                 titulo: entradaTitulo,
                 descricao: entradaDescricao,
                 ano: entradaAno);
@@ -145,7 +189,7 @@ namespace App_Cadastro_Séries_.NET
             repositorio.Insere(novaSerie);
 
 
-            repositorio.Atualiza(indiceSerie,novaSerie);
+            repositorio.Atualiza(indiceSerie, novaSerie);
         }
 
         static void ExcluirSeries(SerieRepositorio repositorio)
@@ -161,15 +205,19 @@ namespace App_Cadastro_Séries_.NET
             Console.Write("Digite o id da série: ");
             int indiceSerie = int.Parse(Console.ReadLine());
 
-            object serie = repositorio.RetornaPorId(indiceSerie);
-
+            Serie serie = repositorio.RetornaPorId(indiceSerie);
+            Console.ForegroundColor = (ConsoleColor)serie.RetornaGenero();
             Console.WriteLine(serie);
+            Console.ResetColor();
         }
         static void ListagemGeneros()
         {
             foreach (int i in Enum.GetValues(typeof(Genero)))
             {
+
+                Console.ForegroundColor = (ConsoleColor)i;
                 Console.WriteLine("{0}-{1}", i, Enum.GetName(typeof(Genero), i));
+                Console.ResetColor();
             }
         }
 

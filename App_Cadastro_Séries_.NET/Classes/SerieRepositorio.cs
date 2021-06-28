@@ -10,34 +10,22 @@ namespace App_Cadastro_Séries_.NET
     public class SerieRepositorio : IRepositorio<Serie>
     {
         private List<Serie> Listagem = new List<Serie>();
-        public void Atualiza(int id, Serie entidade)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Exclui(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Insere(Serie entidade)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Serie> Lista()
-        {
-            throw new NotImplementedException();
-        }
-
-        public int ProximoId()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Serie RetornaPorId(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public void Atualiza(int id, Serie serie) { Listagem[id] = serie; }
+        public void Exclui(int id) { Listagem[id].Excluir(); }
+        public void Insere(Serie serie) { Listagem.Add(serie); }
+        public List<Serie> Lista() { return Listagem; }
+        public int ProximoId() { return Listagem.Count; }
+        public Serie RetornaPorId(int id) { return Listagem[id]; }
+       
     }
 }
+     
+      
+
+
+       
+
+
+
+      
+

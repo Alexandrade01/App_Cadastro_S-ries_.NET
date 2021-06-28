@@ -1,0 +1,16 @@
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\App_Cadastro_Séries_.NET.exe
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\App_Cadastro_Séries_.NET.deps.json
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\App_Cadastro_Séries_.NET.runtimeconfig.json
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\App_Cadastro_Séries_.NET.runtimeconfig.dev.json
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\App_Cadastro_Séries_.NET.dll
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\ref\App_Cadastro_Séries_.NET.dll
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\bin\Debug\net5.0\App_Cadastro_Séries_.NET.pdb
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.csproj.AssemblyReference.cache
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.AssemblyInfoInputs.cache
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.AssemblyInfo.cs
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.csproj.CoreCompileInputs.cache
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.dll
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\ref\App_Cadastro_Séries_.NET.dll
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.pdb
+C:\Users\alexa\Documents\programação\c# e windows forms\projetos digital innovation one\App_Cadastro_Séries_.NET\App_Cadastro_Séries_.NET\obj\Debug\net5.0\App_Cadastro_Séries_.NET.genruntimeconfig.cache

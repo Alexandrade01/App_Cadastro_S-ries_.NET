@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace App_Cadastro_Séries_.NET
 {
-    class Serie:Entidadebase
+    public class Serie:Entidadebase
     {
-       
+
 
         //Atributos
 
-        public Genero Genero { get; protected set; }
-        public string Titulo { get; protected set; }
-        public string Descricao { get; protected set; }
-        public int Ano { get; protected set; }
+        readonly Genero Genero;
+        readonly string Titulo;
+        readonly string Descricao;
+        readonly int Ano;
+        private bool Excluido { get; set; }
 
         // Construtores
         public Serie(Genero genero, string titulo, string descricao, int ano)
@@ -24,7 +25,9 @@ namespace App_Cadastro_Séries_.NET
             Titulo = titulo;
             Descricao = descricao;
             Ano = ano;
+            Excluido = false;
         }
+       
 
         //Metodos
         public override string ToString()
@@ -38,9 +41,11 @@ namespace App_Cadastro_Séries_.NET
             return retorno;
         }
         public string RetornaTitulo() { return Titulo; }
-
         public int RetornaId() { return Id; }
-
-
+        public void Excluir() { Excluido = true; }
+        public bool ItemExcluido() { return Excluido; }
     }
 }
+
+
+

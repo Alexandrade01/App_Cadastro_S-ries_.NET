@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App_Cadastro_Séries_.NET.Classes
+namespace App_Cadastro_Séries_.NET
 {
-    class EntidadeBase
+    public abstract class Entidadebase
     {
+        public int Id { get; protected set; }
     }
 }

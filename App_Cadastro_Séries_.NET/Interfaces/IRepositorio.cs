@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace App_Cadastro_Séries_.NET
+namespace App_Cadastro_Séries_.NET.IRepositorio
 {
-    interface IRepositório<T>
+    interface IRepositorio<T>
     {
         List<T> Lista();
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 
 
@@ -9,8 +10,8 @@ namespace App_Cadastro_Séries_.NET
        
         static void Main(string[] args)
         {
-            
-            LayoutdeUsuario.Menu();
+
+            LayoutdeUsuario.Inicializar();
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace App_Cadastro_Séries_.NET
 {
@@ -10,6 +11,26 @@ namespace App_Cadastro_Séries_.NET
     public class LayoutdeUsuario
     {
         static SerieRepositorio Acervo = new SerieRepositorio();
+        public static void Inicializar()
+        {
+            if (File.Exists("dados.txt"))
+            {
+                string[] dados = File.ReadAllLines("dados.txt");
+                foreach (var dado in dados)
+                {
+                    string[] items = dado.Split("•");
+                    Serie novaSerie = new Serie(Acervo.ProximoId(),
+                    genero: (Genero)Enum.Parse(typeof(Genero),items[0]),
+                    titulo: items[1],
+                    descricao: items[2],
+                    ano: Convert.ToInt32(items[3]));
+                    if (items[4] == "True") { novaSerie.Excluir(); } 
+                    Acervo.Insere(novaSerie);
+                }
+            }
+            Menu();
+
+        }
         static string OpcoesUsuario()
         {
             Console.WriteLine();
@@ -29,7 +50,7 @@ namespace App_Cadastro_Séries_.NET
             Console.WriteLine("5- Visualizar série");
             Console.WriteLine("6 - Listar séries excluidas");
             Console.WriteLine("C- Limpar Tela");
-            Console.WriteLine("X- Sair");
+            Console.WriteLine("X Salvar e Sair");
             Console.WriteLine();
 
 
@@ -43,7 +64,7 @@ namespace App_Cadastro_Séries_.NET
 
 
 
-        public static void Menu()
+        static void Menu()
         {
             string resp = string.Empty;
             do
@@ -56,25 +77,30 @@ namespace App_Cadastro_Séries_.NET
                     switch (resp)
                     {
                         case "1":
-                            ListarSeries(Acervo, false);
+                            ListarSeries(false);
                             break;
                         case "2":
-                            InserirSerie(Acervo);
+                            InserirSerie();
                             break;
                         case "3":
-                            AtualizarSerie(Acervo);
+                            AtualizarSerie();
                             break;
                         case "4":
-                            ExcluirSeries(Acervo);
+                            ExcluirSeries();
                             break;
                         case "5":
-                            VisualizarSerie(Acervo);
+                            VisualizarSerie();
                             break;
                         case "6":
-                            ListarSeries(Acervo, true);
+                            ListarSeries(true);
                             break;
                         case "C":
                             Console.Clear();
+                            break;
+                        case "X":
+                            Console.WriteLine("Tchau !");
+                            Save();
+                            Environment.Exit(-1);
                             break;
 
                         default:
@@ -108,11 +134,11 @@ namespace App_Cadastro_Séries_.NET
             while (resp != "X" || string.IsNullOrEmpty(resp));
         }
 
-        static void ListarSeries(SerieRepositorio repositorio, bool utilizaveis)
+        static void ListarSeries(bool utilizaveis)
         {
             Console.WriteLine("Listar séries \n");
 
-            var listagem = repositorio.Lista();
+            var listagem = Acervo.Lista();
 
             if (listagem.Count == 0)
             {
@@ -128,7 +154,7 @@ namespace App_Cadastro_Séries_.NET
         }
 
 
-        static void InserirSerie(SerieRepositorio repositorio)
+        static void InserirSerie()
         {
             Console.WriteLine("Inserir nova série \n");
 
@@ -146,17 +172,18 @@ namespace App_Cadastro_Séries_.NET
             Console.Write("Digite a Descrição da Série: ");
             string entradaDescricao = Console.ReadLine();
 
-            Serie novaSerie = new Serie(Acervo.ProximoId(), 
+            Serie novaSerie = new Serie(Acervo.ProximoId(),
                 genero: (Genero)entradaGenero,
                 titulo: entradaTitulo,
                 descricao: entradaDescricao,
                 ano: entradaAno);
 
 
-            repositorio.Insere(novaSerie);
+            Acervo.Insere(novaSerie);
+
         }
 
-        private static void AtualizarSerie(SerieRepositorio repositorio)
+        private static void AtualizarSerie()
         {
             Console.Write("Digite o id da série: ");
             int indiceSerie = int.Parse(Console.ReadLine());
@@ -179,33 +206,33 @@ namespace App_Cadastro_Séries_.NET
             Console.Write("Digite a Descrição da Série: ");
             string entradaDescricao = Console.ReadLine();
 
-            Serie novaSerie = new Serie(Acervo.ProximoId(), 
+            Serie novaSerie = new Serie(Acervo.ProximoId(),
                 genero: (Genero)entradaGenero,
                 titulo: entradaTitulo,
                 descricao: entradaDescricao,
                 ano: entradaAno);
 
 
-            repositorio.Insere(novaSerie);
+            Acervo.Insere(novaSerie);
 
 
-            repositorio.Atualiza(indiceSerie, novaSerie);
+            Acervo.Atualiza(indiceSerie, novaSerie);
         }
 
-        static void ExcluirSeries(SerieRepositorio repositorio)
+        static void ExcluirSeries()
         {
             Console.Write("Digite o id da série: ");
             int indiceSerie = int.Parse(Console.ReadLine());
 
-            repositorio.Exclui(indiceSerie);
+            Acervo.Exclui(indiceSerie);
         }
 
-        private static void VisualizarSerie(SerieRepositorio repositorio)
+        private static void VisualizarSerie()
         {
             Console.Write("Digite o id da série: ");
             int indiceSerie = int.Parse(Console.ReadLine());
 
-            Serie serie = repositorio.RetornaPorId(indiceSerie);
+            Serie serie = Acervo.RetornaPorId(indiceSerie);
             Console.ForegroundColor = (ConsoleColor)serie.RetornaGenero();
             Console.WriteLine(serie);
             Console.ResetColor();
@@ -218,6 +245,13 @@ namespace App_Cadastro_Séries_.NET
                 Console.ForegroundColor = (ConsoleColor)i;
                 Console.WriteLine("{0}-{1}", i, Enum.GetName(typeof(Genero), i));
                 Console.ResetColor();
+            }
+        }
+        static void Save()
+        {
+            foreach (var dados in Acervo.Lista())
+            {
+                File.AppendAllText("dados.txt", dados.TextoParaSalvar());
             }
         }
 

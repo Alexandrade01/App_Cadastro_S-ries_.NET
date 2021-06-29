@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace App_Cadastro_Séries_.NET
@@ -11,6 +8,10 @@ namespace App_Cadastro_Séries_.NET
     public class LayoutdeUsuario
     {
         static SerieRepositorio Acervo = new SerieRepositorio();
+
+        /// <summary>
+        /// Inicialização do Layout
+        /// </summary>
         public static void Inicializar()
         {
             if (File.Exists("dados.txt"))
@@ -20,17 +21,21 @@ namespace App_Cadastro_Séries_.NET
                 {
                     string[] items = dado.Split("•");
                     Serie novaSerie = new Serie(Acervo.ProximoId(),
-                    genero: (Genero)Enum.Parse(typeof(Genero),items[0]),
+                    genero: (Genero)Enum.Parse(typeof(Genero), items[0]),
                     titulo: items[1],
                     descricao: items[2],
                     ano: Convert.ToInt32(items[3]));
-                    if (items[4] == "True") { novaSerie.Excluir(); } 
+                    if (items[4] == "True") { novaSerie.Excluir(); }
                     Acervo.Insere(novaSerie);
                 }
             }
             Menu();
 
         }
+        /// <summary>
+        /// Mostra as opções de generos para os usuarios
+        /// </summary>
+        /// <returns></returns>
         static string OpcoesUsuario()
         {
             Console.WriteLine();
@@ -63,7 +68,9 @@ namespace App_Cadastro_Séries_.NET
 
 
 
-
+        /// <summary>
+        /// Menu de Operações
+        /// </summary>
         static void Menu()
         {
             string resp = string.Empty;
@@ -133,10 +140,13 @@ namespace App_Cadastro_Séries_.NET
             }
             while (resp != "X" || string.IsNullOrEmpty(resp));
         }
-
+        /// <summary>
+        /// Listagem das séries cadastradas utilizando laço foreach
+        /// </summary>
+        /// <param name="utilizaveis"></param>
         static void ListarSeries(bool utilizaveis)
         {
-            Console.WriteLine("Listar séries \n");
+
 
             var listagem = Acervo.Lista();
 
@@ -144,7 +154,9 @@ namespace App_Cadastro_Séries_.NET
             {
                 throw new DomainExceptions("Lista Vazia!");
             }
-
+            if (!utilizaveis) { Console.WriteLine("Listagem de séries ativas ! \n"); }
+            else { Console.WriteLine("Listagem de séries excluidas ! \n"); }
+           
             foreach (var serie in listagem)
             {
                 Console.ForegroundColor = (ConsoleColor)serie.RetornaGenero();
@@ -153,7 +165,9 @@ namespace App_Cadastro_Séries_.NET
             }
         }
 
-
+        /// <summary>
+        /// Método static para cadastros de novas séries
+        /// </summary>
         static void InserirSerie()
         {
             Console.WriteLine("Inserir nova série \n");
@@ -182,13 +196,15 @@ namespace App_Cadastro_Séries_.NET
             Acervo.Insere(novaSerie);
 
         }
-
+        /// <summary>
+        /// Atualização de cadastros de séries
+        /// </summary>
         private static void AtualizarSerie()
         {
             Console.Write("Digite o id da série: ");
             int indiceSerie = int.Parse(Console.ReadLine());
 
-            ListagemGeneros();
+
 
             Console.WriteLine("Inserir nova série \n");
 
@@ -213,20 +229,26 @@ namespace App_Cadastro_Séries_.NET
                 ano: entradaAno);
 
 
-            Acervo.Insere(novaSerie);
+            
 
 
             Acervo.Atualiza(indiceSerie, novaSerie);
         }
-
+        /// <summary>
+        /// Exlusão de série no catalogo deixando-o indisponivel
+        /// </summary>
         static void ExcluirSeries()
         {
             Console.Write("Digite o id da série: ");
             int indiceSerie = int.Parse(Console.ReadLine());
 
             Acervo.Exclui(indiceSerie);
+            Console.WriteLine("Série excluida !");
+            
         }
-
+        /// <summary>
+        /// Método para visualização completa da série 
+        /// </summary>
         private static void VisualizarSerie()
         {
             Console.Write("Digite o id da série: ");
@@ -237,6 +259,10 @@ namespace App_Cadastro_Séries_.NET
             Console.WriteLine(serie);
             Console.ResetColor();
         }
+
+        /// <summary>
+        /// Método estatico que retorna a lista de generos cadastrados
+        /// </summary>
         static void ListagemGeneros()
         {
             foreach (int i in Enum.GetValues(typeof(Genero)))
@@ -249,13 +275,15 @@ namespace App_Cadastro_Séries_.NET
         }
         static void Save()
         {
+            File.WriteAllText("dados.txt", "");
             foreach (var dados in Acervo.Lista())
             {
                 File.AppendAllText("dados.txt", dados.TextoParaSalvar());
             }
         }
 
-
-
-    }
+    }   
 }
+
+
+
